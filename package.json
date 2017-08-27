@@ -1,0 +1,16 @@
+{
+  "name": "hyperapp-logger",
+  "version": "0.0.1",
+  "description": "Like redux-logger but for Hyperapp",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okwolf/hyperapp-logger.git"
+  },
+  "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/okwolf/hyperapp-logger/issues"
+  },
+  "homepage": "https://github.com/okwolf/hyperapp-logger"
+}
