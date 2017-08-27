@@ -1,6 +1,6 @@
 {
   "name": "hyperapp-logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Like redux-logger but for Hyperapp",
   "main": "index.js",
   "repository": {

@@ -12,52 +12,54 @@
     root.hyperappLogger = factory();
   }
 })(this, function() {
-  return function() {
-    var firedActions = [];
-    var updateActions = [];
-    return {
-      events: {
-        action(state, actions, action) {
-          firedActions.push(action);
-        },
-        resolve(state, actions, result) {
-          var action = firedActions.pop();
-          if (typeof result === 'function') {
-            return function(update) {
-              result(function(updateResult) {
-                updateActions.push(action);
-                update(updateResult);
-              });
-            };
-          } else if (typeof result === 'object') {
-            updateActions.push(action);
+  var defaultLog = function(prevState, action, nextState) {
+    console.group(
+      '%c action',
+      'color: gray; font-weight: lighter;',
+      action.name
+    );
+    console.log(
+      '%c prev state',
+      'color: #9E9E9E; font-weight: bold;',
+      prevState
+    );
+    console.log('%c data', 'color: #03A9F4; font-weight: bold;', action.data);
+    console.log(
+      '%c next state',
+      'color: #4CAF50; font-weight: bold;',
+      nextState
+    );
+    console.groupEnd();
+  };
+  var logger = function(options) {
+    options = options || {};
+    options.log = typeof options.log === 'function' ? options.log : defaultLog;
+    return function(emit) {
+      var actionStack = [];
+      return {
+        events: {
+          action(state, actions, action) {
+            actionStack.push(action);
+          },
+          resolve(state, actions, result) {
+            if (typeof result === 'function') {
+              var action = actionStack.pop();
+              return function(update) {
+                result(function(updateResult) {
+                  actionStack.push(action);
+                  update(updateResult);
+                });
+              };
+            }
+          },
+          update(state, actions, nextState) {
+            var action = actionStack.pop();
+            options.log(state, action, nextState);
           }
-        },
-        update(state, actions, nextState) {
-          var action = updateActions.pop();
-          console.group(
-            '%c action',
-            'color: gray; font-weight: lighter;',
-            action.name
-          );
-          console.log(
-            '%c prev state',
-            'color: #9E9E9E; font-weight: bold;',
-            state
-          );
-          console.log(
-            '%c data',
-            'color: #03A9F4; font-weight: bold;',
-            action.data
-          );
-          console.log(
-            '%c next state',
-            'color: #4CAF50; font-weight: bold;',
-            nextState
-          );
-          console.groupEnd();
         }
-      }
+      };
     };
   };
+
+  return logger;
 });

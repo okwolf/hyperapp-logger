@@ -29,7 +29,7 @@ import logger from 'hyperapp-logger';
 ...
 app({
   ...
-  mixins: [logger]
+  mixins: [logger()]
 })
 ```
 
@@ -40,10 +40,24 @@ const logger = require('hyperapp-logger');
 ...
 app({
   ...
-  mixins: [logger]
+  mixins: [logger()]
 })
+```
+
+## Options
+
+If you wish to customize what the logger does, provide a `log` property in the optional options passed when creating it:
+
+```js
+mixins: [
+  logger({
+    log(prevState, action, nextState) {
+      // format and send your log messages anywhere you like
+    }
+  })
+]
 ```
 
 ### Browser
 
-Because this package exports as UMD you can add it to an existing HTML/pen with the following script: `https://unpkg.com/hyperapp-logger` (For [CodePen](https://codepen.io) this is under Settings -> JavaScript -> Add External JavaScript). Then you just need to add the mixin to your app: `mixins: [hyperappLogger]` and you'll be seeing logs! [Here](https://codepen.io/anon/pen/prOmqx?editors=0010) is an example of adding this logger to the ubiquitous counter Hyperapp sample.
+Because this package exports as UMD you can add it to an existing HTML/pen with the following script: `https://unpkg.com/hyperapp-logger` (For [CodePen](https://codepen.io) this is under Settings -> JavaScript -> Add External JavaScript). Then you just need to add the mixin to your app: `mixins: [hyperappLogger()]` and you'll be seeing logs! [Here](https://codepen.io/anon/pen/prOmqx?editors=0010) is an example of adding this logger to the ubiquitous counter Hyperapp sample.
