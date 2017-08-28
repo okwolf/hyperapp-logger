@@ -1,10 +1,10 @@
 {
   "name": "hyperapp-logger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Logger for Hyperapp",
-  "main": "index.js",
-  "jsnext:main": "logger.js",
-  "module": "logger.js",
+  "main": "dist/logger.js",
+  "jsnext:main": "src/index.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/okwolf/hyperapp-logger.git"
@@ -16,8 +16,8 @@
   "scripts": {
     "test": "jest --coverage --no-cache",
     "build": "npm run bundle && npm run minify",
-    "bundle": "rollup -i index.js -o logger.js -m -f umd -n logger",
-    "minify": "uglifyjs logger.js -o logger.js --mangle --compress warnings=false -p relative --source-map logger.js.map",
+    "bundle": "rollup -i src/index.js -o dist/logger.js -m -f umd -n logger",
+    "minify": "uglifyjs dist/logger.js -o dist/logger.js --mangle --compress warnings=false -p relative --source-map dist/logger.js.map",
     "prepublish": "npm run build"
   },
   "babel": {
