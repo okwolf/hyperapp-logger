@@ -2,55 +2,58 @@
 
 [![npm](https://img.shields.io/npm/v/hyperapp-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-logger)
 
-A [HyperApp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates with the actions that caused them to the console. Heavily inspired by [redux-logger](https://github.com/evgenyrodionov/redux-logger).
+A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. Heavily inspired by [redux-logger](https://github.com/evgenyrodionov/redux-logger).
 
-![Screenshot](screenshot.png)
+![Screenshot](https://user-images.githubusercontent.com/56996/29755259-639e60d0-8bd0-11e7-9ff9-1a5216d47cfe.png)
 
-## Install
+## Installation
 
-### npm
+### Node.js
 
-```sh
-npm install --save hyperapp-logger
+Install with npm / Yarn.
+
+<pre>
+npm i <a href="https://www.npmjs.com/package/hyperapp-logger">hyperapp-logger</a>
+</pre>
+
+Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
+
+```jsx
+import logger from "hyperapp-logger"
 ```
 
-### Yarn
-
-```sh
-yarn add hyperapp-logger
-```
-
-## Usage
-
-### ES6 Node
+Or without ES6 modules.
 
 ```js
-import logger from 'hyperapp-logger';
-...
-app({
-  ...
-  mixins: [logger()]
-})
-```
-
-### ES5 Node
-
-```js
-const logger = require('hyperapp-logger');
-...
-app({
-  ...
-  mixins: [logger()]
-})
+const logger = require("hyperapp-logger")
 ```
 
 ### Browser
 
-Because this package exports as UMD you can add it to an existing HTML/pen with the following script: `https://unpkg.com/hyperapp-logger` (For [CodePen](https://codepen.io) this is under Settings -> JavaScript -> Add External JavaScript). Then you just need to add the mixin to your app: `mixins: [hyperappLogger()]` and you'll be seeing logs! [Here](https://codepen.io/anon/pen/prOmqx?editors=0010) is an example of adding this logger to the ubiquitous counter Hyperapp sample.
+Download the minified library from the [CDN](https://unpkg.com/hyperapp-logger).
+
+```html
+<script src="https://unpkg.com/hyperapp-logger"></script>
+```
+
+You can find the library in `window.logger`.
+
+[Here](https://codepen.io/anon/pen/prOmqx?editors=0010) is an example of adding the logger to the ubiquitous counter Hyperapp example.
+
+## Usage
+
+```js
+app({
+  // ...
+  mixins: [logger()]
+})
+```
 
 ## Options
 
-If you wish to customize what the logger does, provide a `log` property in the optional options passed when creating it:
+### `options.log`
+
+Use it to customize the log function.
 
 ```js
 mixins: [
@@ -61,3 +64,7 @@ mixins: [
   })
 ]
 ```
+
+## License
+
+hyperapp-logger is MIT licensed. See [LICENSE](LICENSE.md).
