@@ -10,8 +10,8 @@
     "url": "git+https://github.com/okwolf/hyperapp-logger.git"
   },
   "files": [
-    "index.js",
-    "logger.js"
+    "src/**",
+    "dist/**"
   ],
   "scripts": {
     "test": "jest --coverage --no-cache",
