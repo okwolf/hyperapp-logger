@@ -7,7 +7,7 @@
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. Heavily inspired by [redux-logger](https://github.com/evgenyrodionov/redux-logger).
 
-![Screenshot](https://user-images.githubusercontent.com/56996/29755259-639e60d0-8bd0-11e7-9ff9-1a5216d47cfe.png)
+![Screenshot](https://user-images.githubusercontent.com/3735164/29865010-37eaf08e-8d29-11e7-9929-7a097b3a99a8.png)
 
 ## Installation
 
