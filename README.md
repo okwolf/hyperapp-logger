@@ -1,6 +1,9 @@
 # hyperapp-logger
 
-[![npm](https://img.shields.io/npm/v/hyperapp-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-logger)
+[![Travis CI](https://img.shields.io/travis/hyperapp/logger/master.svg)](https://travis-ci.org/hyperapp/logger)
+[![Codecov](https://img.shields.io/codecov/c/github/hyperapp/logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
+[![npm](https://img.shields.io/npm/v/hyperapp.svg)](https://www.npmjs.org/package/hyperapp)
+[![Slack](https://hyperappjs.herokuapp.com/badge.svg)](https://hyperappjs.herokuapp.com "Join us")
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. Heavily inspired by [redux-logger](https://github.com/evgenyrodionov/redux-logger).
 

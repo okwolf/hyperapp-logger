@@ -1,13 +1,13 @@
 {
-  "name": "hyperapp-logger",
-  "version": "0.0.6",
+  "name": "@hyperapp/logger",
+  "version": "0.1.0",
   "description": "Logger for Hyperapp",
   "main": "dist/logger.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/okwolf/hyperapp-logger.git"
+    "url": "git+https://github.com/hyperapp/logger.git"
   },
   "files": [
     "src/**",
@@ -33,7 +33,7 @@
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/okwolf/hyperapp-logger/issues"
+    "url": "https://github.com/hyperapp/logger/issues"
   },
-  "homepage": "https://github.com/okwolf/hyperapp-logger"
+  "homepage": "https://github.com/hyperapp/logger"
 }
