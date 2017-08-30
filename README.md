@@ -41,7 +41,7 @@ Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger)
 
 You can find the library in `window.logger`.
 
-[Here](https://codepen.io/anon/pen/prOmqx?editors=0010) is an example of adding the logger to the ubiquitous counter Hyperapp example.
+[Here](https://codepen.io/okwolf/pen/xLQmvW?editors=0010) is an example of adding the logger to the ubiquitous counter Hyperapp example.
 
 ## Usage
 
