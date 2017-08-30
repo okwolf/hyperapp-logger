@@ -16,27 +16,27 @@ A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hy
 Install with npm / Yarn.
 
 <pre>
-npm i <a href="https://www.npmjs.com/package/hyperapp-logger">hyperapp-logger</a>
+npm i <a href="https://www.npmjs.com/package/@hyperapp/logger">@hyperapp/logger</a>
 </pre>
 
 Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
 
 ```jsx
-import logger from "hyperapp-logger"
+import logger from "@hyperapp/logger"
 ```
 
 Or without ES6 modules.
 
 ```js
-const logger = require("hyperapp-logger")
+const logger = require("@hyperapp/logger")
 ```
 
 ### Browser
 
-Download the minified library from the [CDN](https://unpkg.com/hyperapp-logger).
+Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger).
 
 ```html
-<script src="https://unpkg.com/hyperapp-logger"></script>
+<script src="https://unpkg.com/@hyperapp/logger"></script>
 ```
 
 You can find the library in `window.logger`.
