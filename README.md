@@ -5,7 +5,9 @@
 [![npm](https://img.shields.io/npm/v/@hyperapp/logger.svg)](https://www.npmjs.org/package/@hyperapp/logger)
 [![Slack](https://hyperappjs.herokuapp.com/badge.svg)](https://hyperappjs.herokuapp.com "Join us")
 
-A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. Heavily inspired by [redux-logger](https://github.com/evgenyrodionov/redux-logger).
+A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. 
+
+[Try it Online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010)
 
 ![Screenshot](https://user-images.githubusercontent.com/3735164/29865010-37eaf08e-8d29-11e7-9929-7a097b3a99a8.png)
 
@@ -25,7 +27,7 @@ Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [w
 import logger from "@hyperapp/logger"
 ```
 
-Or without ES6 modules.
+Or using require.
 
 ```js
 const logger = require("@hyperapp/logger")
@@ -41,8 +43,6 @@ Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger)
 
 You can find the library in `window.logger`.
 
-[Here](https://codepen.io/okwolf/pen/xLQmvW?editors=0010) is an example of adding the logger to the ubiquitous counter Hyperapp example.
-
 ## Usage
 
 ```js
@@ -52,9 +52,9 @@ app({
 })
 ```
 
-## Options
+### Options
 
-### `options.log`
+#### `options.log`
 
 Use it to customize the log function.
 
