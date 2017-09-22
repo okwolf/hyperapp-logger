@@ -1,46 +1,46 @@
-import { h, app } from 'hyperapp';
-import logger from '../src';
+import { h, app } from "hyperapp"
+import logger from "../src"
 
-const defaultConsole = console;
+const defaultConsole = console
 
 afterEach(() => {
-  console = defaultConsole;
-});
+  console = defaultConsole
+})
 
-test('log', done => {
+test("log", done => {
   console = {
     log() {},
     group() {},
     groupEnd() {
-      done();
+      done()
     }
-  };
+  }
 
   app({
     actions: {
       foo(state) {
-        return state;
+        return state
       }
     },
     events: {
       load(state, actions) {
-        actions.foo();
+        actions.foo()
       }
     },
     mixins: [logger()]
-  });
-});
+  })
+})
 
-test('log event handler filtering actions', done => {
+test("log event handler filtering actions", done => {
   console = {
     log() {},
     group(message, format, param) {
-      expect(param).toBe('bar');
+      expect(param).toBe("bar")
     },
     groupEnd() {
-      done();
+      done()
     }
-  };
+  }
 
   app({
     actions: {
@@ -49,50 +49,50 @@ test('log event handler filtering actions', done => {
     },
     events: {
       load(state, actions) {
-        actions.foo();
-        actions.bar();
+        actions.foo()
+        actions.bar()
       },
       log(state, actions, { prevState, action, nextState }) {
-        if (action.name === 'foo') {
-          return false;
+        if (action.name === "foo") {
+          return false
         }
       }
     },
     mixins: [logger()]
-  });
-});
+  })
+})
 
-test('log event handler overriding default log', done => {
+test("log event handler overriding default log", done => {
   app({
     state: {
       value: 0
     },
     actions: {
       up(state) {
-        return { value: state.value + 1 };
+        return { value: state.value + 1 }
       },
       upWithThunk(state, actions, data) {
-        return update => update({ value: state.value + data });
+        return update => update({ value: state.value + data })
       }
     },
     events: {
       load(state, actions) {
-        actions.up();
-        actions.upWithThunk(1);
+        actions.up()
+        actions.upWithThunk(1)
       },
       log(state, actions, { prevState, action, nextState }) {
-        if (action.name === 'up') {
-          expect(state).toEqual({ value: 0 });
-          expect(nextState).toEqual({ value: 1 });
-        } else if (action.name === 'upWithThunk') {
-          expect(state).toEqual({ value: 1 });
-          expect(action.data).toBe(1);
-          expect(nextState).toEqual({ value: 2 });
-          done();
+        if (action.name === "up") {
+          expect(state).toEqual({ value: 0 })
+          expect(nextState).toEqual({ value: 1 })
+        } else if (action.name === "upWithThunk") {
+          expect(state).toEqual({ value: 1 })
+          expect(action.data).toBe(1)
+          expect(nextState).toEqual({ value: 2 })
+          done()
         }
-        return false;
+        return false
       }
     },
     mixins: [logger()]
-  });
-});
+  })
+})
