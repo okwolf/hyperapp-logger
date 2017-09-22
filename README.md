@@ -52,19 +52,26 @@ app({
 })
 ```
 
-### Options
+### Events
 
-#### `options.log`
+#### `events.log`
 
-Use it to customize the log function.
+Use this event to format state, filter actions to log, or completely override the log function.
 
 ```js
-mixins: [
-  logger({
-    log(prevState, action, nextState) {
-      // format and send your log messages anywhere you like
+events: [
+  log(state, actions, { prevState, action, nextState }) {
+    // return a new { prevState, action, nextState } to format state values
+
+    // return false conditionally for actions you want to skip logging
+    if (action.name === 'foo') {
+      return false;
     }
-  })
+
+    // to implement your own log function, send the output where you want it and return false unconditionally
+    log(prevState, action, nextState);
+    return false;
+  }
 ]
 ```
 

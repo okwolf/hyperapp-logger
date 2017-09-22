@@ -1,4 +1,7 @@
-function log(prevState, action, nextState) {
+function defaultLog(params) {
+  var prevState = params.prevState,
+    action = params.action,
+    nextState = params.nextState;
   console.group('%c action', 'color: gray; font-weight: lighter;', action.name);
   console.log('%c prev state', 'color: #9E9E9E; font-weight: bold;', prevState);
   console.log('%c data', 'color: #03A9F4; font-weight: bold;', action.data);
@@ -6,10 +9,7 @@ function log(prevState, action, nextState) {
   console.groupEnd();
 }
 
-export default function(options) {
-  options = options || {};
-  options.log = typeof options.log === 'function' ? options.log : log;
-
+export default function() {
   return function(emit) {
     var actionStack = [];
     return {
@@ -29,7 +29,15 @@ export default function(options) {
           }
         },
         update: function(state, actions, nextState) {
-          options.log(state, actionStack.pop(), nextState);
+          var params = {
+            prevState: state,
+            action: actionStack.pop(),
+            nextState: nextState
+          };
+          var resultParams = emit('log', params);
+          if (resultParams) {
+            defaultLog(resultParams);
+          }
         }
       }
     };
