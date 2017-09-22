@@ -30,6 +30,9 @@
     "uglify-js": "^2.7.5",
     "hyperapp": "^0.12.0"
   },
+  "peerDependencies": {
+    "hyperapp": "^0.12.0"
+  },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
   "bugs": {
