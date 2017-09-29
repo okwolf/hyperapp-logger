@@ -6,10 +6,7 @@ function log(prevState, action, nextState) {
   console.groupEnd()
 }
 
-export default function(options) {
-  options = options || {}
-  options.log = typeof options.log === "function" ? options.log : log
-
+function onStateUpdate(callback) {
   return function() {
     return function(action) {
       return function(result) {
@@ -17,11 +14,11 @@ export default function(options) {
           return update(function(prevState) {
             if (typeof result === "function") {
               return result(function(updateResult) {
-                options.log(prevState, action, updateResult)
+                callback(prevState, action, updateResult)
                 return updateResult
               })
             } else {
-              options.log(prevState, action, result)
+              callback(prevState, action, result)
               return result
             }
           })
@@ -29,4 +26,11 @@ export default function(options) {
       }
     }
   }
+}
+
+export default function(options) {
+  options = options || {}
+  options.log = typeof options.log === "function" ? options.log : log
+
+  return onStateUpdate(options.log)
 }
