@@ -13,33 +13,33 @@ test("custom log function", done => {
       value: 0
     },
     actions: {
-      up(state) {
-        return { value: state.value + 1 }
-      },
-      upWithThunk(state, actions, data) {
-        return update => update({ value: state.value + data })
-      }
+      up: state => ({ value: state.value + 1 }),
+      down: state => ({ value: state.value - 1 }),
+      upWithThunk: (state, actions, data) => update =>
+        update({ value: state.value + data })
     },
-    events: {
-      load(state, actions) {
-        actions.up()
-        actions.upWithThunk(1)
-      }
-    },
-    mixins: [
+    hooks: [
       logger({
-        log(state, action, nextState) {
+        log(prevState, action, nextState) {
           if (action.name === "up") {
-            expect(state).toEqual({ value: 0 })
+            expect(prevState).toEqual({ value: 0 })
             expect(nextState).toEqual({ value: 1 })
           } else if (action.name === "upWithThunk") {
-            expect(state).toEqual({ value: 1 })
+            expect(prevState).toEqual({ value: 1 })
             expect(action.data).toBe(1)
             expect(nextState).toEqual({ value: 2 })
+          } else if (action.name === "down") {
+            expect(prevState).toEqual({ value: 2 })
+            expect(nextState).toEqual({ value: 1 })
+            done()
           }
-          done()
         }
-      })
+      }),
+      (state, actions) => {
+        actions.up()
+        actions.upWithThunk(1)
+        actions.down()
+      }
     ]
   })
 })
@@ -54,16 +54,19 @@ test("log", done => {
   }
 
   app({
+    state: {
+      works: true
+    },
     actions: {
       foo(state) {
         return state
       }
     },
-    events: {
-      load(state, actions) {
+    hooks: [
+      logger(),
+      (state, actions) => {
         actions.foo()
       }
-    },
-    mixins: [logger()]
+    ]
   })
 })
