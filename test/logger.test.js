@@ -8,7 +8,21 @@ afterEach(() => {
 })
 
 test("custom log function", done => {
-  app({
+  const appActions = app(
+    logger({
+      log(state, action, nextState) {
+        if (action.name === "up") {
+          expect(state).toEqual({ value: 0 })
+          expect(nextState).toEqual({ value: 1 })
+        } else if (action.name === "upWithThunk") {
+          expect(state).toEqual({ value: 1 })
+          expect(action.data).toBe(1)
+          expect(nextState).toEqual({ value: 2 })
+          done()
+        }
+      }
+    })
+  )({
     state: {
       value: 0
     },
@@ -19,29 +33,10 @@ test("custom log function", done => {
       upWithThunk(state, actions, data) {
         return update => update({ value: state.value + data })
       }
-    },
-    events: {
-      load(state, actions) {
-        actions.up()
-        actions.upWithThunk(1)
-      }
-    },
-    mixins: [
-      logger({
-        log(state, action, nextState) {
-          if (action.name === "up") {
-            expect(state).toEqual({ value: 0 })
-            expect(nextState).toEqual({ value: 1 })
-          } else if (action.name === "upWithThunk") {
-            expect(state).toEqual({ value: 1 })
-            expect(action.data).toBe(1)
-            expect(nextState).toEqual({ value: 2 })
-          }
-          done()
-        }
-      })
-    ]
+    }
   })
+  appActions.up()
+  appActions.upWithThunk(1)
 })
 
 test("log", done => {
@@ -53,17 +48,12 @@ test("log", done => {
     }
   }
 
-  app({
+  const appActions = app(logger())({
     actions: {
       foo(state) {
         return state
       }
-    },
-    events: {
-      load(state, actions) {
-        actions.foo()
-      }
-    },
-    mixins: [logger()]
+    }
   })
+  appActions.foo()
 })
