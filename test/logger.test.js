@@ -8,21 +8,19 @@ afterEach(() => {
 })
 
 test("custom log function", done => {
-  const appActions = app(
-    logger({
-      log(state, action, nextState) {
-        if (action.name === "up") {
-          expect(state).toEqual({ value: 0 })
-          expect(nextState).toEqual({ value: 1 })
-        } else if (action.name === "upWithThunk") {
-          expect(state).toEqual({ value: 1 })
-          expect(action.data).toBe(1)
-          expect(nextState).toEqual({ value: 2 })
-          done()
-        }
+  const appActions = logger({
+    log(state, action, nextState) {
+      if (action.name === "up") {
+        expect(state).toEqual({ value: 0 })
+        expect(nextState).toEqual({ value: 1 })
+      } else if (action.name === "upWithThunk") {
+        expect(state).toEqual({ value: 1 })
+        expect(action.data).toBe(1)
+        expect(nextState).toEqual({ value: 2 })
+        done()
       }
-    })
-  )({
+    }
+  })(app)({
     state: {
       value: 0
     },
@@ -48,7 +46,7 @@ test("log", done => {
     }
   }
 
-  const appActions = app(logger())({
+  const appActions = logger()(app)({
     actions: {
       foo(state) {
         return state
