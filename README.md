@@ -5,11 +5,11 @@
 [![npm](https://img.shields.io/npm/v/@hyperapp/logger.svg)](https://www.npmjs.org/package/@hyperapp/logger)
 [![Slack](https://hyperappjs.herokuapp.com/badge.svg)](https://hyperappjs.herokuapp.com "Join us")
 
-A [Hyperapp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that logs state updates and action information to the console. 
+A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs state updates and action information to the console.
 
 [Try it Online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010)
 
-![Screenshot](https://user-images.githubusercontent.com/3735164/29865010-37eaf08e-8d29-11e7-9929-7a097b3a99a8.png)
+![Screenshot](https://user-images.githubusercontent.com/3735164/31422748-aef12aee-ae04-11e7-800d-4a674f204357.png)
 
 ## Installation
 
@@ -46,9 +46,8 @@ You can find the library in `window.logger`.
 ## Usage
 
 ```js
-app({
+logger()(app)({
   // ...
-  mixins: [logger()]
 })
 ```
 
@@ -59,13 +58,13 @@ app({
 Use it to customize the log function.
 
 ```js
-mixins: [
-  logger({
-    log(prevState, action, nextState) {
-      // format and send your log messages anywhere you like
-    }
-  })
-]
+logger({
+  log(prevState, action, nextState) {
+    // format and send your log messages anywhere you like
+  }
+})(app)({
+  // ...
+})
 ```
 
 ## License
