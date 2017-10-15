@@ -27,12 +27,6 @@ Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [w
 import logger from "@hyperapp/logger"
 ```
 
-Or using require.
-
-```js
-const logger = require("@hyperapp/logger")
-```
-
 ### Browser
 
 Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger).
