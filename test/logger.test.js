@@ -7,6 +7,13 @@ afterEach(() => {
   console = defaultConsole
 })
 
+test("without actions", done =>
+  logger()(app)({
+    init() {
+      done()
+    }
+  }))
+
 test("log", done => {
   console = {
     log() {},
@@ -95,3 +102,75 @@ test("state slices", done =>
       actions.slice.upWithThunk(1)
     }
   }))
+
+test("modules", done => {
+  const foo = {
+    state: {
+      value: 0
+    },
+    actions: {
+      up: state => ({ value: state.value + 1 })
+    },
+    modules: {
+      bar: {
+        state: {
+          text: "hello"
+        },
+        actions: {
+          change: () => ({ text: "hola" })
+        }
+      }
+    }
+  }
+
+  logger({
+    log(state, action, nextState) {
+      switch (action.name) {
+        case "hello":
+          expect(state).toEqual({
+            message: "",
+            foo: { value: 0, bar: { text: "hello" } }
+          })
+          expect(nextState).toEqual({ message: "hello world" })
+          break
+        case "foo.up":
+          expect(state).toEqual({
+            value: 0,
+            bar: {
+              text: "hello"
+            }
+          })
+          expect(nextState).toEqual({
+            value: 1
+          })
+          break
+        case "foo.bar.change":
+          expect(state).toEqual({
+            text: "hello"
+          })
+          expect(nextState).toEqual({
+            text: "hola"
+          })
+          done()
+          break
+        default:
+          throw new Error(`Unexpected action: ${action.name}`)
+      }
+    }
+  })(app)({
+    state: {
+      message: ""
+    },
+    actions: {
+      hello: state => ({ message: "hello world" })
+    },
+    modules: {
+      foo
+    },
+    init(state, actions) {
+      actions.hello()
+      actions.foo.up()
+      actions.foo.bar.change()
+    }
+  })
+})

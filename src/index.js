@@ -6,9 +6,9 @@ export default function(options) {
 
   return function(app) {
     return function(props) {
-      function enhance(actions, prefix) {
+      function enhanceActions(actions, prefix) {
         var namespace = prefix ? prefix + "." : ""
-        return Object.keys(actions).reduce(function(otherActions, name) {
+        return Object.keys(actions || {}).reduce(function(otherActions, name) {
           var namedspacedName = namespace + name
           var action = actions[name]
           otherActions[name] =
@@ -35,12 +35,22 @@ export default function(options) {
                     return result
                   }
                 }
-              : enhance(action, namedspacedName)
+              : enhanceActions(action, namedspacedName)
           return otherActions
         }, {})
       }
 
-      props.actions = enhance(props.actions)
+      function enhanceModules(module, prefix) {
+        var namespace = prefix ? prefix + "." : ""
+        module.actions = enhanceActions(module.actions, prefix)
+
+        Object.keys(module.modules || {}).map(function(name) {
+          enhanceModules(module.modules[name], namespace + name)
+        })
+      }
+
+      props.actions = enhanceActions(props.actions)
+      enhanceModules(props)
       var appActions = app(props)
 
       return appActions
