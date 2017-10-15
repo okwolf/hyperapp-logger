@@ -49,7 +49,6 @@ export default function(options) {
         })
       }
 
-      props.actions = enhanceActions(props.actions)
       enhanceModules(props)
       var appActions = app(props)
 
