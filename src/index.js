@@ -14,11 +14,11 @@ export default function(options) {
     return function(props) {
       function enhance(actions) {
         return Object.keys(actions).reduce(function(otherActions, name) {
-          const action = actions[name]
+          var action = actions[name]
           otherActions[name] =
             typeof action === "function"
               ? function(state, actions, data) {
-                  const result = action(state, actions, data)
+                  var result = action(state, actions, data)
                   if (typeof result === "function") {
                     return function(update) {
                       return result(function(withState) {
@@ -41,7 +41,7 @@ export default function(options) {
       }
 
       props.actions = enhance(props.actions)
-      const appActions = app(props)
+      var appActions = app(props)
 
       return appActions
     }
