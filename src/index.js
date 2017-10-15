@@ -1,4 +1,4 @@
-import defaultLog from './defaultLog'
+import defaultLog from "./defaultLog"
 
 export default function(options) {
   options = options || {}
@@ -6,8 +6,10 @@ export default function(options) {
 
   return function(app) {
     return function(props) {
-      function enhance(actions) {
+      function enhance(actions, prefix) {
+        var namespace = prefix ? prefix + "." : ""
         return Object.keys(actions).reduce(function(otherActions, name) {
+          var namedspacedName = namespace + name
           var action = actions[name]
           otherActions[name] =
             typeof action === "function"
@@ -18,18 +20,22 @@ export default function(options) {
                       return result(function(withState) {
                         options.log(
                           state,
-                          { name: name, data: data },
+                          { name: namedspacedName, data: data },
                           withState
                         )
                         return update(withState)
                       })
                     }
                   } else {
-                    options.log(state, { name: name, data: data }, result)
+                    options.log(
+                      state,
+                      { name: namedspacedName, data: data },
+                      result
+                    )
                     return result
                   }
                 }
-              : enhance(action)
+              : enhance(action, namedspacedName)
           return otherActions
         }, {})
       }
