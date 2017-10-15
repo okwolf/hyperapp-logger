@@ -22,19 +22,23 @@ test("custom log function", done =>
     }
   })(app)({
     state: {
-      value: 0
+      slice: {
+        value: 0
+      }
     },
     actions: {
-      up(state) {
-        return { value: state.value + 1 }
-      },
-      upWithThunk(state, actions, data) {
-        return update => update({ value: state.value + data })
+      slice: {
+        up(state) {
+          return { value: state.value + 1 }
+        },
+        upWithThunk(state, actions, data) {
+          return update => update({ value: state.value + data })
+        }
       }
     },
     init(state, actions) {
-      actions.up()
-      actions.upWithThunk(1)
+      actions.slice.up()
+      actions.slice.upWithThunk(1)
     }
   }))
 
