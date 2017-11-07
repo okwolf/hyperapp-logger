@@ -9,9 +9,7 @@ afterEach(() => {
 
 test("without actions", done =>
   logger()(app)({
-    init() {
-      done()
-    }
+    view: () => done()
   }))
 
 test("log", done => {
@@ -25,21 +23,16 @@ test("log", done => {
 
   logger()(app)({
     actions: {
-      foo(state) {
-        return state
-      }
-    },
-    init(state, actions) {
-      actions.foo()
+      foo: state => state
     }
-  })
+  }).foo()
 })
 
 test("custom log function", done =>
   logger({
     log(state, action, nextState) {
       expect(state).toEqual({ value: 0 })
-      expect(action).toEqual({ name: "inc", data: { by: 2 } })
+      expect(action).toEqual({ name: "inc", data: 2 })
       expect(nextState).toEqual({ value: 2 })
       done()
     }
@@ -48,15 +41,12 @@ test("custom log function", done =>
       value: 0
     },
     actions: {
-      inc: (state, actions, { by }) => ({ value: state.value + by })
-    },
-    init(state, actions) {
-      actions.inc({ by: 2 })
+      inc: state => by => ({ value: state.value + by })
     }
-  }))
+  }).inc(2))
 
-test("state slices", done =>
-  logger({
+test("state slices", done => {
+  const actions = logger({
     log(state, action, nextState) {
       switch (action.name) {
         case "hello":
@@ -65,12 +55,8 @@ test("state slices", done =>
           break
         case "slice.up":
           expect(state).toEqual({ value: 0 })
-          expect(nextState).toEqual({ value: 1 })
-          break
-        case "slice.upWithThunk":
-          expect(state).toEqual({ value: 1 })
           expect(action.data).toBe(1)
-          expect(nextState).toEqual({ value: 2 })
+          expect(nextState).toEqual({ value: 1 })
           done()
           break
         default:
@@ -84,24 +70,15 @@ test("state slices", done =>
       }
     },
     actions: {
-      hello(state) {
-        return { message: "hello" }
-      },
+      hello: () => ({ message: "hello" }),
       slice: {
-        up(state) {
-          return { value: state.value + 1 }
-        },
-        upWithThunk(state, actions, data) {
-          return update => update({ value: state.value + data })
-        }
+        up: state => by => ({ value: state.value + by })
       }
-    },
-    init(state, actions) {
-      actions.hello()
-      actions.slice.up()
-      actions.slice.upWithThunk(1)
     }
-  }))
+  })
+  actions.hello()
+  actions.slice.up(1)
+})
 
 test("modules", done => {
   const foo = {
@@ -123,7 +100,7 @@ test("modules", done => {
     }
   }
 
-  logger({
+  const actions = logger({
     log(state, action, nextState) {
       switch (action.name) {
         case "hello":
@@ -166,11 +143,9 @@ test("modules", done => {
     },
     modules: {
       foo
-    },
-    init(state, actions) {
-      actions.hello()
-      actions.foo.up()
-      actions.foo.bar.change()
     }
   })
+  actions.hello()
+  actions.foo.up()
+  actions.foo.bar.change()
 })
