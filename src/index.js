@@ -13,26 +13,17 @@ export default function(options) {
           var action = actions[name]
           otherActions[name] =
             typeof action === "function"
-              ? function(state, actions, data) {
-                  var result = action(state, actions, data)
-                  if (typeof result === "function") {
-                    return function(update) {
-                      return result(function(withState) {
-                        options.log(
-                          state,
-                          { name: namedspacedName, data: data },
-                          withState
-                        )
-                        return update(withState)
-                      })
-                    }
-                  } else {
+              ? function(state, actions) {
+                  return function(data) {
+                    var result = action(state, actions)
+                    var nextState =
+                      typeof result === "function" ? result(data) : result
                     options.log(
                       state,
                       { name: namedspacedName, data: data },
-                      result
+                      nextState
                     )
-                    return result
+                    return nextState
                   }
                 }
               : enhanceActions(action, namedspacedName)
