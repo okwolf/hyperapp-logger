@@ -31,18 +31,9 @@ export default function(options) {
         }, {})
       }
 
-      function enhanceModules(module, prefix) {
-        var namespace = prefix ? prefix + "." : ""
-        module.actions = enhanceActions(module.actions, prefix)
+      props.actions = enhanceActions(props.actions)
 
-        Object.keys(module.modules || {}).map(function(name) {
-          enhanceModules(module.modules[name], namespace + name)
-        })
-      }
-
-      enhanceModules(props)
       var appActions = app(props)
-
       return appActions
     }
   }
