@@ -79,3 +79,55 @@ test("state slices", done => {
   actions.hello()
   actions.slice.up(1)
 })
+
+test("doesn't interfere with state updates", () => {
+  const actions = logger({
+    log(state, action, nextState) {}
+  })(app)({
+    state: {
+      value: 0
+    },
+    actions: {
+      get: state => state,
+      up: state => by => ({
+        value: state.value + by
+      })
+    }
+  })
+
+  expect(actions.get()).toEqual({
+    value: 0
+  })
+
+  expect(actions.up(2)).toEqual({
+    value: 2
+  })
+
+  expect(actions.get()).toEqual({
+    value: 2
+  })
+})
+
+test("doesn't interfere with custom container", done => {
+  document.body.innerHTML = "<main></main>"
+  logger({
+    log(state, action, nextState) {}
+  })(app)(
+    {
+      view: state =>
+        h(
+          "div",
+          {
+            oncreate() {
+              expect(document.body.innerHTML).toBe(
+                "<main><div>foo</div></main>"
+              )
+              done()
+            }
+          },
+          "foo"
+        )
+    },
+    document.body.firstChild
+  )
+})

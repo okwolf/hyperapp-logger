@@ -5,7 +5,7 @@ export default function(options) {
   options.log = typeof options.log === "function" ? options.log : defaultLog
 
   return function(app) {
-    return function(props) {
+    return function(props, container) {
       function enhanceActions(actions, prefix) {
         var namespace = prefix ? prefix + "." : ""
         return Object.keys(actions || {}).reduce(function(otherActions, name) {
@@ -33,7 +33,7 @@ export default function(options) {
 
       props.actions = enhanceActions(props.actions)
 
-      var appActions = app(props)
+      var appActions = app(props, container)
       return appActions
     }
   }
