@@ -23,7 +23,7 @@ test("log", done => {
 
   logger()(app)({
     actions: {
-      foo: state => state
+      foo: () => state => state
     }
   }).foo()
 })
@@ -41,7 +41,7 @@ test("custom log function", done =>
       value: 0
     },
     actions: {
-      inc: state => by => ({ value: state.value + by })
+      inc: by => state => ({ value: state.value + by })
     }
   }).inc(2))
 
@@ -70,9 +70,9 @@ test("state slices", done => {
       }
     },
     actions: {
-      hello: () => ({ message: "hello" }),
+      hello: () => () => ({ message: "hello" }),
       slice: {
-        up: state => by => ({ value: state.value + by })
+        up: by => state => ({ value: state.value + by })
       }
     }
   })
@@ -80,7 +80,7 @@ test("state slices", done => {
   actions.slice.up(1)
 })
 
-test("doesn't interfere with state updates", () => {
+test("doesn't interfere with state updates", done => {
   const actions = logger({
     log(state, action, nextState) {}
   })(app)({
@@ -88,10 +88,16 @@ test("doesn't interfere with state updates", () => {
       value: 0
     },
     actions: {
-      get: state => state,
-      up: state => by => ({
+      get: () => state => state,
+      up: by => state => ({
         value: state.value + by
-      })
+      }),
+      finish: () => () => actions => {
+        actions.exit()
+      },
+      exit: () => {
+        done()
+      }
     }
   })
 
@@ -106,6 +112,8 @@ test("doesn't interfere with state updates", () => {
   expect(actions.get()).toEqual({
     value: 2
   })
+
+  actions.finish()
 })
 
 test("doesn't interfere with custom container", done => {
