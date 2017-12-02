@@ -15,8 +15,7 @@
   ],
   "scripts": {
     "test": "jest --coverage --no-cache",
-    "build": "npm run build-hyperapp && npm run bundle && npm run minify",
-    "build-hyperapp": "cd node_modules/hyperapp && npm i && npm run bundle",
+    "build": "npm run bundle && npm run minify",
     "bundle": "rollup -i src/index.js -o dist/logger.js -m -f umd -n logger",
     "minify": "uglifyjs dist/logger.js -o dist/logger.js --mangle --compress warnings=false -p relative --source-map dist/logger.js.map",
     "prepare": "npm run build",
@@ -26,15 +25,15 @@
     "presets": "env"
   },
   "devDependencies": {
-    "babel-preset-env": "1.6.1",
-    "hyperapp": "hyperapp/hyperapp#master",
+    "babel-preset-env": "^1.6.1",
+    "hyperapp": "^0.16.2",
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
     "rollup": "^0.51.2",
     "uglify-js": "^2.7.5"
   },
   "peerDependencies": {
-    "hyperapp": "^0.16.0"
+    "hyperapp": "^0.16.2"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
