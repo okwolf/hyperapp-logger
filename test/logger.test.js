@@ -23,7 +23,7 @@ test("log", done => {
 
   logger()(app)({
     actions: {
-      foo: state => state
+      foo: () => state => state
     }
   }).foo()
 })
@@ -41,7 +41,7 @@ test("custom log function", done =>
       value: 0
     },
     actions: {
-      inc: state => by => ({ value: state.value + by })
+      inc: by => state => ({ value: state.value + by })
     }
   }).inc(2))
 
@@ -70,9 +70,9 @@ test("state slices", done => {
       }
     },
     actions: {
-      hello: () => ({ message: "hello" }),
+      hello: () => () => ({ message: "hello" }),
       slice: {
-        up: state => by => ({ value: state.value + by })
+        up: by => state => ({ value: state.value + by })
       }
     }
   })
@@ -80,72 +80,62 @@ test("state slices", done => {
   actions.slice.up(1)
 })
 
-test("modules", done => {
-  const foo = {
+test("doesn't interfere with state updates", done => {
+  const actions = logger({
+    log(state, action, nextState) {}
+  })(app)({
     state: {
       value: 0
     },
     actions: {
-      up: state => ({ value: state.value + 1 })
-    },
-    modules: {
-      bar: {
-        state: {
-          text: "hello"
-        },
-        actions: {
-          change: () => ({ text: "hola" })
-        }
+      get: () => state => state,
+      up: by => state => ({
+        value: state.value + by
+      }),
+      finish: () => () => actions => {
+        actions.exit()
+      },
+      exit: () => {
+        done()
       }
-    }
-  }
-
-  const actions = logger({
-    log(state, action, nextState) {
-      switch (action.name) {
-        case "hello":
-          expect(state).toEqual({
-            message: "",
-            foo: { value: 0, bar: { text: "hello" } }
-          })
-          expect(nextState).toEqual({ message: "hello world" })
-          break
-        case "foo.up":
-          expect(state).toEqual({
-            value: 0,
-            bar: {
-              text: "hello"
-            }
-          })
-          expect(nextState).toEqual({
-            value: 1
-          })
-          break
-        case "foo.bar.change":
-          expect(state).toEqual({
-            text: "hello"
-          })
-          expect(nextState).toEqual({
-            text: "hola"
-          })
-          done()
-          break
-        default:
-          throw new Error(`Unexpected action: ${action.name}`)
-      }
-    }
-  })(app)({
-    state: {
-      message: ""
-    },
-    actions: {
-      hello: state => ({ message: "hello world" })
-    },
-    modules: {
-      foo
     }
   })
-  actions.hello()
-  actions.foo.up()
-  actions.foo.bar.change()
+
+  expect(actions.get()).toEqual({
+    value: 0
+  })
+
+  expect(actions.up(2)).toEqual({
+    value: 2
+  })
+
+  expect(actions.get()).toEqual({
+    value: 2
+  })
+
+  actions.finish()
+})
+
+test("doesn't interfere with custom container", done => {
+  document.body.innerHTML = "<main></main>"
+  logger({
+    log(state, action, nextState) {}
+  })(app)(
+    {
+      view: state =>
+        h(
+          "div",
+          {
+            oncreate() {
+              expect(document.body.innerHTML).toBe(
+                "<main><div>foo</div></main>"
+              )
+              done()
+            }
+          },
+          "foo"
+        )
+    },
+    document.body.firstChild
+  )
 })
