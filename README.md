@@ -9,7 +9,7 @@ A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs 
 
 [Try it Online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010)
 
-![Screenshot](https://user-images.githubusercontent.com/3735164/31422748-aef12aee-ae04-11e7-800d-4a674f204357.png)
+![Screenshot](https://user-images.githubusercontent.com/3735164/33617281-2f592640-d994-11e7-88dc-e30888fd3f91.png)
 
 ## Installation
 

@@ -5,7 +5,7 @@ export default function(options) {
   options.log = typeof options.log === "function" ? options.log : defaultLog
 
   return function(app) {
-    return function(props) {
+    return function(props, container) {
       function enhanceActions(actions, prefix) {
         var namespace = prefix ? prefix + "." : ""
         return Object.keys(actions || {}).reduce(function(otherActions, name) {
@@ -13,17 +13,21 @@ export default function(options) {
           var action = actions[name]
           otherActions[name] =
             typeof action === "function"
-              ? function(state, actions) {
-                  return function(data) {
-                    var result = action(state, actions)
-                    var nextState =
-                      typeof result === "function" ? result(data) : result
-                    options.log(
-                      state,
-                      { name: namedspacedName, data: data },
-                      nextState
-                    )
-                    return nextState
+              ? function(data) {
+                  return function(state) {
+                    return function(actions) {
+                      var result = action(data)
+                      result =
+                        typeof result === "function" ? result(state) : result
+                      result =
+                        typeof result === "function" ? result(actions) : result
+                      options.log(
+                        state,
+                        { name: namedspacedName, data: data },
+                        result
+                      )
+                      return result
+                    }
                   }
                 }
               : enhanceActions(action, namedspacedName)
@@ -31,18 +35,9 @@ export default function(options) {
         }, {})
       }
 
-      function enhanceModules(module, prefix) {
-        var namespace = prefix ? prefix + "." : ""
-        module.actions = enhanceActions(module.actions, prefix)
+      props.actions = enhanceActions(props.actions)
 
-        Object.keys(module.modules || {}).map(function(name) {
-          enhanceModules(module.modules[name], namespace + name)
-        })
-      }
-
-      enhanceModules(props)
-      var appActions = app(props)
-
+      var appActions = app(props, container)
       return appActions
     }
   }
