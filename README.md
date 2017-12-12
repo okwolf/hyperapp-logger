@@ -40,9 +40,7 @@ You can find the library in `window.logger`.
 ## Usage
 
 ```js
-logger()(app)({
-  // ...
-})
+logger()(app)(model, view)
 ```
 
 ### Options
@@ -56,9 +54,7 @@ logger({
   log(prevState, action, nextState) {
     // format and send your log messages anywhere you like
   }
-})(app)({
-  // ...
-})
+})(app)(model, view)
 ```
 
 ## License

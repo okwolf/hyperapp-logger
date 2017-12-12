@@ -7,10 +7,7 @@ afterEach(() => {
   console = defaultConsole
 })
 
-test("without actions", done =>
-  logger()(app)({
-    view: () => done()
-  }))
+test("without actions", done => logger()(app)({}, () => done()))
 
 test("log", done => {
   console = {
@@ -22,9 +19,7 @@ test("log", done => {
   }
 
   logger()(app)({
-    actions: {
-      foo: () => state => state
-    }
+    foo: () => state => state
   }).foo()
 })
 
@@ -37,12 +32,8 @@ test("custom log function", done =>
       done()
     }
   })(app)({
-    state: {
-      value: 0
-    },
-    actions: {
-      inc: by => state => ({ value: state.value + by })
-    }
+    value: 0,
+    inc: by => state => ({ value: state.value + by })
   }).inc(2))
 
 test("state slices", done => {
@@ -64,16 +55,10 @@ test("state slices", done => {
       }
     }
   })(app)({
-    state: {
-      slice: {
-        value: 0
-      }
-    },
-    actions: {
-      hello: () => () => ({ message: "hello" }),
-      slice: {
-        up: by => state => ({ value: state.value + by })
-      }
+    hello: () => () => ({ message: "hello" }),
+    slice: {
+      value: 0,
+      up: by => state => ({ value: state.value + by })
     }
   })
   actions.hello()
@@ -81,61 +66,55 @@ test("state slices", done => {
 })
 
 test("doesn't interfere with state updates", done => {
-  const actions = logger({
-    log(state, action, nextState) {}
-  })(app)({
-    state: {
-      value: 0
+  const model = {
+    value: 0,
+    get: () => ({ value }) => ({ value }),
+    up: by => state => ({
+      value: state.value + by
+    }),
+    finish: () => actions => {
+      actions.exit()
     },
-    actions: {
-      get: () => state => state,
-      up: by => state => ({
-        value: state.value + by
-      }),
-      finish: () => () => actions => {
-        actions.exit()
-      },
-      exit: () => {
-        done()
-      }
+    exit: () => {
+      done()
     }
-  })
+  }
+  const store = logger({
+    log(state, action, nextState) {}
+  })(app)(model)
 
-  expect(actions.get()).toEqual({
+  expect(store.get()).toEqual({
     value: 0
   })
 
-  expect(actions.up(2)).toEqual({
+  expect(store.up(2)).toEqual({
     value: 2
   })
 
-  expect(actions.get()).toEqual({
+  expect(store.get()).toEqual({
     value: 2
   })
 
-  actions.finish()
+  store.finish()
 })
 
 test("doesn't interfere with custom container", done => {
   document.body.innerHTML = "<main></main>"
+  const model = {
+    message: "foo"
+  }
+  const view = state =>
+    h(
+      "div",
+      {
+        oncreate() {
+          expect(document.body.innerHTML).toBe("<main><div>foo</div></main>")
+          done()
+        }
+      },
+      "foo"
+    )
   logger({
     log(state, action, nextState) {}
-  })(app)(
-    {
-      view: state =>
-        h(
-          "div",
-          {
-            oncreate() {
-              expect(document.body.innerHTML).toBe(
-                "<main><div>foo</div></main>"
-              )
-              done()
-            }
-          },
-          "foo"
-        )
-    },
-    document.body.firstChild
-  )
+  })(app)(model, view, document.body.firstChild)
 })

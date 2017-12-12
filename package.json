@@ -26,14 +26,14 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
-    "hyperapp": "^0.16.2",
+    "hyperapp": "^0.17.0",
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
     "rollup": "^0.51.2",
     "uglify-js": "^2.7.5"
   },
   "peerDependencies": {
-    "hyperapp": "^0.16.2"
+    "hyperapp": "^0.17.0"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
