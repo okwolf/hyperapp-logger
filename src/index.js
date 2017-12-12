@@ -43,7 +43,7 @@ export default function(options) {
         }, {})
       }
 
-      const enhancedModel = enhanceActions(model)
+      var enhancedModel = enhanceActions(model)
 
       var appActions = app(enhancedModel, view, container)
       return appActions
