@@ -8,9 +8,7 @@ afterEach(() => {
 })
 
 test("without actions", done =>
-  logger()(app)({
-    view: () => done()
-  }))
+  logger()(app)(undefined, undefined, () => done()))
 
 test("log", done => {
   console = {
@@ -21,11 +19,12 @@ test("log", done => {
     }
   }
 
-  logger()(app)({
-    actions: {
+  logger()(app)(
+    {},
+    {
       foo: () => state => state
     }
-  }).foo()
+  ).foo()
 })
 
 test("custom log function", done =>
@@ -36,14 +35,14 @@ test("custom log function", done =>
       expect(nextState).toEqual({ value: 2 })
       done()
     }
-  })(app)({
-    state: {
+  })(app)(
+    {
       value: 0
     },
-    actions: {
+    {
       inc: by => state => ({ value: state.value + by })
     }
-  }).inc(2))
+  ).inc(2))
 
 test("state slices", done => {
   const actions = logger({
@@ -63,19 +62,19 @@ test("state slices", done => {
           throw new Error(`Unexpected action: ${action.name}`)
       }
     }
-  })(app)({
-    state: {
+  })(app)(
+    {
       slice: {
         value: 0
       }
     },
-    actions: {
+    {
       hello: () => () => ({ message: "hello" }),
       slice: {
         up: by => state => ({ value: state.value + by })
       }
     }
-  })
+  )
   actions.hello()
   actions.slice.up(1)
 })
@@ -83,23 +82,23 @@ test("state slices", done => {
 test("doesn't interfere with state updates", done => {
   const actions = logger({
     log(state, action, nextState) {}
-  })(app)({
-    state: {
+  })(app)(
+    {
       value: 0
     },
-    actions: {
+    {
       get: () => state => state,
       up: by => state => ({
         value: state.value + by
       }),
-      finish: () => () => actions => {
+      finish: () => (state, actions) => {
         actions.exit()
       },
       exit: () => {
         done()
       }
     }
-  })
+  )
 
   expect(actions.get()).toEqual({
     value: 0
@@ -121,21 +120,19 @@ test("doesn't interfere with custom container", done => {
   logger({
     log(state, action, nextState) {}
   })(app)(
-    {
-      view: state =>
-        h(
-          "div",
-          {
-            oncreate() {
-              expect(document.body.innerHTML).toBe(
-                "<main><div>foo</div></main>"
-              )
-              done()
-            }
-          },
-          "foo"
-        )
-    },
+    {},
+    {},
+    state =>
+      h(
+        "div",
+        {
+          oncreate() {
+            expect(document.body.innerHTML).toBe("<main><div>foo</div></main>")
+            done()
+          }
+        },
+        "foo"
+      ),
     document.body.firstChild
   )
 })
