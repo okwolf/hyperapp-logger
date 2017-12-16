@@ -5,7 +5,7 @@ export default function(options) {
   options.log = typeof options.log === "function" ? options.log : defaultLog
 
   return function(app) {
-    return function(props, container) {
+    return function(initialState, actionsTemplate, view, container) {
       function enhanceActions(actions, prefix) {
         var namespace = prefix ? prefix + "." : ""
         return Object.keys(actions || {}).reduce(function(otherActions, name) {
@@ -14,20 +14,18 @@ export default function(options) {
           otherActions[name] =
             typeof action === "function"
               ? function(data) {
-                  return function(state) {
-                    return function(actions) {
-                      var result = action(data)
-                      result =
-                        typeof result === "function" ? result(state) : result
-                      result =
-                        typeof result === "function" ? result(actions) : result
-                      options.log(
-                        state,
-                        { name: namedspacedName, data: data },
-                        result
-                      )
-                      return result
-                    }
+                  return function(state, actions) {
+                    var result = action(data)
+                    result =
+                      typeof result === "function"
+                        ? result(state, actions)
+                        : result
+                    options.log(
+                      state,
+                      { name: namedspacedName, data: data },
+                      result
+                    )
+                    return result
                   }
                 }
               : enhanceActions(action, namedspacedName)
@@ -35,9 +33,9 @@ export default function(options) {
         }, {})
       }
 
-      props.actions = enhanceActions(props.actions)
+      var enhancedActions = enhanceActions(actionsTemplate)
 
-      var appActions = app(props, container)
+      var appActions = app(initialState, enhancedActions, view, container)
       return appActions
     }
   }
