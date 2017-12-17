@@ -9,7 +9,7 @@ A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs 
 
 [Try it Online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010)
 
-![Screenshot](https://user-images.githubusercontent.com/3735164/33617281-2f592640-d994-11e7-88dc-e30888fd3f91.png)
+![Screenshot](https://user-images.githubusercontent.com/3735164/34082934-657f864c-e31c-11e7-93d2-d70f190aa928.png)
 
 ## Installation
 
@@ -40,9 +40,7 @@ You can find the library in `window.logger`.
 ## Usage
 
 ```js
-logger()(app)({
-  // ...
-})
+logger(options)(app)(state, actions, view, document.body)
 ```
 
 ### Options
@@ -56,9 +54,7 @@ logger({
   log(prevState, action, nextState) {
     // format and send your log messages anywhere you like
   }
-})(app)({
-  // ...
-})
+})(app)(state, actions, view, document.body)
 ```
 
 ## License
