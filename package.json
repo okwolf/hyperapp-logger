@@ -1,6 +1,6 @@
 {
   "name": "@hyperapp/logger",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Logger for Hyperapp",
   "main": "dist/logger.js",
   "jsnext:main": "src/index.js",
@@ -17,7 +17,7 @@
     "test": "jest --coverage --no-cache",
     "build": "npm run bundle && npm run minify",
     "bundle": "rollup -i src/index.js -o dist/logger.js -m -f umd -n logger",
-    "minify": "uglifyjs dist/logger.js -o dist/logger.js --mangle --compress warnings=false -p relative --source-map dist/logger.js.map",
+    "minify": "uglifyjs dist/logger.js -o dist/logger.js -mc pure_funcs=Object.defineProperty --source-map includeSources,url=logger.js.map",
     "prepare": "npm run build",
     "format": "prettier --semi false --write '{src,test}/**/*.js'"
   },
@@ -26,14 +26,14 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
-    "hyperapp": "^0.16.2",
+    "hyperapp": "^0.18.0",
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
-    "rollup": "^0.51.2",
-    "uglify-js": "^2.7.5"
+    "rollup": "^0.52.2",
+    "uglify-js": "^3.2.2"
   },
   "peerDependencies": {
-    "hyperapp": "^0.16.2"
+    "hyperapp": "^0.18.0"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
