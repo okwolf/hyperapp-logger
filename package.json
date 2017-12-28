@@ -1,6 +1,6 @@
 {
   "name": "@hyperapp/logger",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Logger for Hyperapp",
   "main": "dist/logger.js",
   "jsnext:main": "src/index.js",
@@ -26,14 +26,14 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
-    "hyperapp": "^0.18.0",
+    "hyperapp": "^0.18.3",
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
     "rollup": "^0.52.2",
     "uglify-js": "^3.2.2"
   },
   "peerDependencies": {
-    "hyperapp": "^0.18.0"
+    "hyperapp": "^0.18.3"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
