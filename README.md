@@ -1,7 +1,7 @@
 # `hyperapp-logger`
 
-[![Travis CI](https://img.shields.io/travis/hyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/hyperapp/logger)
-[![Codecov](https://img.shields.io/codecov/c/github/hyperappJS/hyperapp-logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
+[![Travis CI](https://img.shields.io/travis/hyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/hyperappJS/hyperapp-logger)
+[![Codecov](https://img.shields.io/codecov/c/github/hyperappJS/hyperapp-logger/master.svg)](https://codecov.io/gh/hyperappJS/hyperapp-logger)
 [![npm](https://img.shields.io/npm/v/hyperapp-logger.svg)](https://www.npmjs.org/package/hyperapp-logger)
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs state updates and action information to the console.
