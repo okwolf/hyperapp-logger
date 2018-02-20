@@ -1,6 +1,6 @@
 # `hyperapp-logger`
 
-[![Travis CI](https://img.shields.io/travis/hyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/hyperappJS/hyperapp-logger)
+[![Travis CI](https://img.shields.io/travis/HyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/HyperappJS/hyperapp-logger)
 [![Codecov](https://img.shields.io/codecov/c/github/hyperappJS/hyperapp-logger/master.svg)](https://codecov.io/gh/hyperappJS/hyperapp-logger)
 [![npm](https://img.shields.io/npm/v/hyperapp-logger.svg)](https://www.npmjs.org/package/hyperapp-logger)
 
