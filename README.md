@@ -1,9 +1,8 @@
-# @hyperapp/logger
+# `hyperapp-logger`
 
-[![Travis CI](https://img.shields.io/travis/hyperapp/logger/master.svg)](https://travis-ci.org/hyperapp/logger)
-[![Codecov](https://img.shields.io/codecov/c/github/hyperapp/logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
-[![npm](https://img.shields.io/npm/v/@hyperapp/logger.svg)](https://www.npmjs.org/package/@hyperapp/logger)
-[![Slack](https://hyperappjs.herokuapp.com/badge.svg)](https://hyperappjs.herokuapp.com "Join us")
+[![Travis CI](https://img.shields.io/travis/hyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/hyperapp/logger)
+[![Codecov](https://img.shields.io/codecov/c/github/hyperappJS/hyperapp-logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
+[![npm](https://img.shields.io/npm/v/hyperapp-logger.svg)](https://www.npmjs.org/package/hyperapp-logger)
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs state updates and action information to the console.
 
@@ -18,21 +17,21 @@ A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs 
 Install with npm / Yarn.
 
 <pre>
-npm i <a href="https://www.npmjs.com/package/@hyperapp/logger">@hyperapp/logger</a>
+npm i <a href="https://www.npmjs.com/package/hyperapp-logger">hyperapp-logger</a>
 </pre>
 
 Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
 
 ```jsx
-import logger from "@hyperapp/logger"
+import logger from "hyperapp-logger"
 ```
 
 ### Browser
 
-Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger).
+Download the minified library from the [CDN](https://unpkg.com/hyperapp-logger).
 
 ```html
-<script src="https://unpkg.com/@hyperapp/logger"></script>
+<script src="https://unpkg.com/hyperapp-logger"></script>
 ```
 
 You can find the library in `window.logger`.
@@ -59,4 +58,4 @@ logger({
 
 ## License
 
-@hyperapp/logger is MIT licensed. See [LICENSE](LICENSE.md).
+`hyperapp-logger` is MIT licensed. See [LICENSE](LICENSE.md).
