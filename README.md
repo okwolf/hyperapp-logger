@@ -1,6 +1,6 @@
 # <img height=24 src=https://cdn.rawgit.com/JorgeBucaran/f53d2c00bafcf36e84ffd862f0dc2950/raw/882f20c970ff7d61aa04d44b92fc3530fa758bc0/Hyperapp.svg> Hyperapp Logger
 
-[![Build Status](https://travis-ci.org/hyperappjs/hyperapp-logger.svg?branch=master)](https://travis-ci.org/hyperappjs/hyperapp-logger)
+[![Build Status](https://travis-ci.org/HyperappCommunity/hyperapp-logger.svg?branch=master)](https://travis-ci.org/HyperappCommunity/hyperapp-logger)
 [![codecov](https://codecov.io/gh/HyperappCommunity/hyperapp-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/HyperappCommunity/hyperapp-logger)
 [![npm](https://img.shields.io/npm/v/hyperapp-logger.svg)](https://www.npmjs.org/package/hyperapp-logger)
 
