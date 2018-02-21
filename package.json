@@ -7,7 +7,7 @@
   "module": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hyperappJS/hyperapp-logger.git"
+    "url": "git+https://github.com/HyperappCommunity/hyperapp-logger.git"
   },
   "files": [
     "src/**",
@@ -38,7 +38,7 @@
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hyperappJS/hyperapp-logger/issues"
+    "url": "https://github.com/HyperappCommunity/hyperapp-logger/issues"
   },
-  "homepage": "https://github.com/hyperappJS/hyperapp-logger"
+  "homepage": "https://github.com/HyperappCommunity/hyperapp-logger"
 }

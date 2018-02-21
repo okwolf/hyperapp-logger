@@ -1,7 +1,7 @@
-# `hyperapp-logger`
+# <img height=24 src=https://cdn.rawgit.com/JorgeBucaran/f53d2c00bafcf36e84ffd862f0dc2950/raw/882f20c970ff7d61aa04d44b92fc3530fa758bc0/Hyperapp.svg> Hyperapp Logger
 
-[![Travis CI](https://img.shields.io/travis/HyperappJS/hyperapp-logger/master.svg)](https://travis-ci.org/HyperappJS/hyperapp-logger)
-[![Codecov](https://img.shields.io/codecov/c/github/hyperappJS/hyperapp-logger/master.svg)](https://codecov.io/gh/hyperappJS/hyperapp-logger)
+[![Build Status](https://travis-ci.org/hyperappjs/hyperapp-logger.svg?branch=master)](https://travis-ci.org/hyperappjs/hyperapp-logger)
+[![codecov](https://codecov.io/gh/HyperappCommunity/hyperapp-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/HyperappCommunity/hyperapp-logger)
 [![npm](https://img.shields.io/npm/v/hyperapp-logger.svg)](https://www.npmjs.org/package/hyperapp-logger)
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs state updates and action information to the console.
@@ -58,4 +58,4 @@ logger({
 
 ## License
 
-`hyperapp-logger` is MIT licensed. See [LICENSE](LICENSE.md).
+Hyperapp Logger is MIT licensed. See [LICENSE](LICENSE.md).
