@@ -3,7 +3,6 @@
   "version": "1.0.1",
   "description": "Log Hyperapp state updates and action information to the console",
   "main": "dist/logger.js",
-  "jsnext:main": "src/index.js",
   "module": "src/index.js",
   "repository": {
     "type": "git",
