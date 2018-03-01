@@ -59,11 +59,9 @@ export default function(options) {
               },
               dispatchedActionDetails.namespace
                 .split(".")
-                .reduce(
-                  (nestedState, prop) =>
-                    prop ? nestedState[prop] : nestedState,
-                  state
-                )
+                .reduce(function(nestedState, prop) {
+                  return prop ? nestedState[prop] : nestedState
+                }, state)
             )
             dispatchedActionDetails = {}
           }
