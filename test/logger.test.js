@@ -164,3 +164,42 @@ test("next state of a slice", done => {
     }
   })(app)(state, actions, () => done()).counters.inc1()
 })
+
+test("handle action which returns a promise", done => {
+  const actions = {
+    getPromise: () => () => Promise.resolve("hello")
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(nextState instanceof Promise).toBeTruthy()
+      done()
+    }
+  })(app)({}, actions).getPromise()
+})
+
+test("handle action which returns undefined", done => {
+  const actions = {
+    getUndefined: () => () => undefined
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(typeof nextState).toEqual("undefined")
+      done()
+    }
+  })(app)({}, actions).getUndefined()
+})
+
+test("handle action which returns null", done => {
+  const actions = {
+    getNull: () => () => null
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(nextState).toEqual(null)
+      done()
+    }
+  })(app)({}, actions).getNull()
+})
