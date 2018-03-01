@@ -1,4 +1,4 @@
-# @hyperapp/logger
+# <img height=24 src=https://cdn.rawgit.com/JorgeBucaran/f53d2c00bafcf36e84ffd862f0dc2950/raw/882f20c970ff7d61aa04d44b92fc3530fa758bc0/Hyperapp.svg> Hyperapp Logger
 
 [![Travis CI](https://img.shields.io/travis/hyperapp/logger/master.svg)](https://travis-ci.org/hyperapp/logger)
 [![Codecov](https://img.shields.io/codecov/c/github/hyperapp/logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
@@ -59,4 +59,4 @@ logger({
 
 ## License
 
-@hyperapp/logger is MIT licensed. See [LICENSE](LICENSE.md).
+Hyperapp Logger is MIT licensed. See [LICENSE](LICENSE.md).
