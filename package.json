@@ -1,13 +1,12 @@
 {
-  "name": "@hyperapp/logger",
-  "version": "0.4.2",
-  "description": "Logger for Hyperapp",
+  "name": "hyperapp-logger",
+  "version": "1.0.1",
+  "description": "Log Hyperapp state updates and action information to the console",
   "main": "dist/logger.js",
-  "jsnext:main": "src/index.js",
   "module": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hyperapp/logger.git"
+    "url": "git+https://github.com/HyperappCommunity/hyperapp-logger.git"
   },
   "files": [
     "src/**",
@@ -38,7 +37,7 @@
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hyperapp/logger/issues"
+    "url": "https://github.com/HyperappCommunity/hyperapp-logger/issues"
   },
-  "homepage": "https://github.com/hyperapp/logger"
+  "homepage": "https://github.com/HyperappCommunity/hyperapp-logger"
 }
