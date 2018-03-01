@@ -136,3 +136,31 @@ test("doesn't interfere with custom container", done => {
     document.body.firstChild
   )
 })
+
+test("next state of a slice", done => {
+  const state = {
+    counters: {
+      count1: 1,
+      count2: 2
+    }
+  }
+
+  const actions = {
+    counters: {
+      inc1: () => ({ count1 }) => ({ count1: count1 + 1 })
+    }
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(prevState).toEqual({
+        count1: 1,
+        count2: 2
+      })
+      expect(nextState).toEqual({
+        count1: 2,
+        count2: 2
+      })
+    }
+  })(app)(state, actions, () => done()).counters.inc1()
+})
