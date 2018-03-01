@@ -136,3 +136,70 @@ test("doesn't interfere with custom container", done => {
     document.body.firstChild
   )
 })
+
+test("next state of a slice", done => {
+  const state = {
+    counters: {
+      count1: 1,
+      count2: 2
+    }
+  }
+
+  const actions = {
+    counters: {
+      inc1: () => ({ count1 }) => ({ count1: count1 + 1 })
+    }
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(prevState).toEqual({
+        count1: 1,
+        count2: 2
+      })
+      expect(nextState).toEqual({
+        count1: 2,
+        count2: 2
+      })
+    }
+  })(app)(state, actions, () => done()).counters.inc1()
+})
+
+test("handle action which returns a promise", done => {
+  const actions = {
+    getPromise: () => () => Promise.resolve("hello")
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(nextState instanceof Promise).toBeTruthy()
+      done()
+    }
+  })(app)({}, actions).getPromise()
+})
+
+test("handle action which returns undefined", done => {
+  const actions = {
+    getUndefined: () => () => undefined
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(typeof nextState).toEqual("undefined")
+      done()
+    }
+  })(app)({}, actions).getUndefined()
+})
+
+test("handle action which returns null", done => {
+  const actions = {
+    getNull: () => () => null
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(nextState).toEqual(null)
+      done()
+    }
+  })(app)({}, actions).getNull()
+})

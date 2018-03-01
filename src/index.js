@@ -1,6 +1,7 @@
 import defaultLog from "./defaultLog"
 
 export default function(options) {
+  var dispatchedActionDetails = {}
   options = options || {}
   options.log = typeof options.log === "function" ? options.log : defaultLog
 
@@ -20,11 +21,25 @@ export default function(options) {
                       typeof result === "function"
                         ? result(state, actions)
                         : result
-                    options.log(
-                      state,
-                      { name: namedspacedName, data: data },
-                      result
-                    )
+
+                    if (result instanceof Promise || result == null) {
+                      options.log(
+                        state,
+                        { name: namedspacedName, data: data },
+                        result
+                      )
+                    } else {
+                      dispatchedActionDetails = {
+                        name: namedspacedName,
+                        data: data,
+                        namespace:
+                          namespace.slice(-1) === "."
+                            ? namespace.slice(0, -1)
+                            : namespace,
+                        state: state
+                      }
+                    }
+
                     return result
                   }
                 }
@@ -33,9 +48,36 @@ export default function(options) {
         }, {})
       }
 
-      var enhancedActions = enhanceActions(actionsTemplate)
+      function enhanceView(view) {
+        return function(state, actions) {
+          if (dispatchedActionDetails.name) {
+            options.log(
+              dispatchedActionDetails.state,
+              {
+                name: dispatchedActionDetails.name,
+                data: dispatchedActionDetails.data
+              },
+              dispatchedActionDetails.namespace
+                .split(".")
+                .reduce(function(nestedState, prop) {
+                  return prop ? nestedState[prop] : nestedState
+                }, state)
+            )
+            dispatchedActionDetails = {}
+          }
+          return view(state, actions)
+        }
+      }
 
-      var appActions = app(initialState, enhancedActions, view, container)
+      var enhancedActions = enhanceActions(actionsTemplate)
+      var enhancedView = enhanceView(view)
+
+      var appActions = app(
+        initialState,
+        enhancedActions,
+        enhancedView,
+        container
+      )
       return appActions
     }
   }
