@@ -2,7 +2,7 @@
   "name": "@hyperapp/logger",
   "version": "0.5.0",
   "description": "Log Hyperapp state updates and action information to the console",
-  "main": "dist/withLogger.js",
+  "main": "dist/hyperappLogger.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
   "repository": {
@@ -16,8 +16,8 @@
   "scripts": {
     "test": "jest --coverage --no-cache",
     "build": "npm run bundle && npm run minify",
-    "bundle": "rollup -i src/index.js -o dist/withLogger.js -m -f umd -n withLogger",
-    "minify": "uglifyjs dist/withLogger.js -o dist/withLogger.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=withLogger.js.map",
+    "bundle": "rollup -i src/index.js -o dist/hyperappLogger.js -m -f umd -n hyperappLogger",
+    "minify": "uglifyjs dist/hyperappLogger.js -o dist/hyperappLogger.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=hyperappLogger.js.map",
     "prepare": "npm run build",
     "format": "prettier --semi false --write '{src,test}/**/*.js'"
   },

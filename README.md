@@ -23,8 +23,8 @@ npm i <a href="https://www.npmjs.com/package/@hyperapp/logger">@hyperapp/logger<
 
 Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
 
-```jsx
-import withLogger from "@hyperapp/logger"
+```js
+import { withLogger } from "@hyperapp/logger"
 ```
 
 ### Browser
@@ -35,7 +35,11 @@ Download the minified library from the [CDN](https://unpkg.com/@hyperapp/logger)
 <script src="https://unpkg.com/@hyperapp/logger"></script>
 ```
 
-You can find the library in `window.withLogger`.
+You can find the library in `window.hyperappLogger`.
+
+```js
+const { withLogger } = hyperappLogger
+```
 
 ## Usage
 

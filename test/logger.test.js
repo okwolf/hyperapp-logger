@@ -1,5 +1,5 @@
 import { h, app } from "hyperapp"
-import withLogger from "../src"
+import { withLogger } from "../src"
 
 const defaultConsole = console
 

@@ -1,1 +1,1 @@
-export { withLogger as default } from "./withLogger"
+export { withLogger } from "./withLogger"
