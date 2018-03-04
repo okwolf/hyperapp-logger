@@ -1,4 +1,4 @@
-# <img height=24 src=https://cdn.rawgit.com/JorgeBucaran/f53d2c00bafcf36e84ffd862f0dc2950/raw/882f20c970ff7d61aa04d44b92fc3530fa758bc0/Hyperapp.svg> Hyperapp Logger
+# <img height=24 src=https://cdn.rawgit.com/jorgebucaran/f53d2c00bafcf36e84ffd862f0dc2950/raw/882f20c970ff7d61aa04d44b92fc3530fa758bc0/Hyperapp.svg> Hyperapp Logger
 
 [![Travis CI](https://img.shields.io/travis/hyperapp/logger/master.svg)](https://travis-ci.org/hyperapp/logger)
 [![Codecov](https://img.shields.io/codecov/c/github/hyperapp/logger/master.svg)](https://codecov.io/gh/hyperapp/logger)
@@ -7,9 +7,37 @@
 
 A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that logs state updates and action information to the console.
 
-[Try it Online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010)
+## Getting Started
 
-![Screenshot](https://user-images.githubusercontent.com/3735164/34082934-657f864c-e31c-11e7-93d2-d70f190aa928.png)
+This example shows a counter that can be incremented or decremented. Go ahead and [try it online](https://codepen.io/okwolf/pen/xLQmvW?editors=0010) with your browser console open to see the log messages.
+
+```js
+import { h, app } from "hyperapp"
+import { withLogger } from "@hyperapp/logger"
+
+const state = {
+  count: 0
+}
+
+const actions = {
+  down: () => state => ({ count: state.count - 1 }),
+  up: () => state => ({ count: state.count + 1 })
+}
+
+const view = (state, actions) => (
+  <main>
+    <h1>{state.count}</h1>
+    <button onclick={actions.down} disabled={state.count <= 0}>
+      ー
+    </button>
+    <button onclick={actions.up}>＋</button>
+  </main>
+)
+
+withLogger(app)(state, actions, view, document.body)
+```
+
+![Screenshot](https://user-images.githubusercontent.com/3735164/36941306-d7233132-1f0c-11e8-9b97-335f7957a685.png)
 
 ## Installation
 
@@ -43,8 +71,13 @@ const { withLogger } = hyperappLogger
 
 ## Usage
 
+Compose the `withLogger` function with your `app` before calling it with the usual arguments.
+
 ```js
 withLogger(options)(app)(state, actions, view, document.body)
+
+// Or if you don't need to pass any options
+withLogger(app)(state, actions, view, document.body)
 ```
 
 ### Options

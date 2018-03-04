@@ -8,7 +8,7 @@ afterEach(() => {
 })
 
 test("without actions", done =>
-  withLogger()(app)(undefined, undefined, () => done()))
+  withLogger(app)(undefined, undefined, () => done()))
 
 test("log", done => {
   console = {
@@ -19,7 +19,24 @@ test("log", done => {
     }
   }
 
-  withLogger()(app)(
+  withLogger(app)(
+    {},
+    {
+      foo: () => state => state
+    }
+  ).foo()
+})
+
+test("options without custom log", done => {
+  console = {
+    log() {},
+    group() {},
+    groupEnd() {
+      done()
+    }
+  }
+
+  withLogger({})(app)(
     {},
     {
       foo: () => state => state
