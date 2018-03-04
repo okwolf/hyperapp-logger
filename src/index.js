@@ -45,10 +45,6 @@ export default function(options) {
                       dispatchedActionStack.push({
                         name: namedspacedName,
                         data: data,
-                        namespace:
-                          namespace.slice(-1) === "."
-                            ? namespace.slice(0, -1)
-                            : namespace,
                         state: state
                       })
 
