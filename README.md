@@ -74,6 +74,8 @@ const { withLogger } = hyperappLogger
 Compose the `withLogger` function with your `app` before calling it with the usual arguments.
 
 ```js
+import { withLogger } from "@hyperapp/logger"
+
 withLogger(options)(app)(state, actions, view, document.body)
 
 // Or if you don't need to pass any options
