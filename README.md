@@ -76,10 +76,10 @@ Compose the `withLogger` function with your `app` before calling it with the usu
 ```js
 import { withLogger } from "@hyperapp/logger"
 
-withLogger(options)(app)(state, actions, view, document.body)
-
-// Or if you don't need to pass any options
 withLogger(app)(state, actions, view, document.body)
+
+// Or if you need to pass options
+withLogger(options)(app)(state, actions, view, document.body)
 ```
 
 ### Options
