@@ -50,7 +50,7 @@ test("state slices", done => {
       switch (action.name) {
         case "hello":
           expect(state).toEqual({ slice: { value: 0 } })
-          expect(nextState).toEqual({ message: "hello" })
+          expect(nextState).toEqual({ message: "hello", slice: { value: 0 } })
           break
         case "slice.up":
           expect(state).toEqual({ value: 0 })
@@ -135,4 +135,70 @@ test("doesn't interfere with custom container", done => {
       ),
     document.body.firstChild
   )
+})
+
+test("next state of a slice", done => {
+  const state = {
+    counters: {
+      count1: 1,
+      count2: 2
+    }
+  }
+
+  const actions = {
+    counters: {
+      inc1: () => ({ count1 }) => ({ count1: count1 + 1 })
+    }
+  }
+
+  logger({
+    log(prevState, action, nextState) {
+      expect(prevState).toEqual({
+        count1: 1,
+        count2: 2
+      })
+      expect(nextState).toEqual({
+        count1: 2,
+        count2: 2
+      })
+    }
+  })(app)(state, actions, () => done()).counters.inc1()
+})
+
+test("no excessive action injections", done => {
+  const state = {
+    a: {
+      b: {
+        c: 1
+      }
+    }
+  }
+
+  const actions = {
+    generic: () => {},
+    a: {
+      b: {
+        getC: () => state => state.c
+      }
+    }
+  }
+
+  const wiredActions = logger()(app)(state, actions)
+
+  expect(wiredActions).toMatchObject(
+    expect.objectContaining({
+      _logWithUpdatedState: expect.any(Function),
+      _generic: expect.any(Function),
+      generic: expect.any(Function),
+      a: {
+        b: {
+          _logWithUpdatedState: expect.any(Function),
+          _getC: expect.any(Function),
+          getC: expect.any(Function)
+        }
+      }
+    })
+  )
+
+  done()
 })
