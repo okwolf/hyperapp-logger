@@ -14,12 +14,19 @@
     "dist/**"
   ],
   "scripts": {
+    "clean": "npx rimraf coverage dist node_modules",
+    "format": "prettier --write '{src,test}/**/*.js'",
+    "format:check": "prettier --list-different {src,test}/**/*.js",
     "test": "jest --coverage --no-cache",
-    "build": "npm run bundle && npm run minify",
     "bundle": "rollup -i src/index.js -o dist/hyperappLogger.js -m -f umd -n hyperappLogger",
     "minify": "uglifyjs dist/hyperappLogger.js -o dist/hyperappLogger.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=hyperappLogger.js.map",
+    "check": "npm run format:check && npm t",
+    "build": "npm run check && npm run bundle && npm run minify",
     "prepare": "npm run build",
-    "format": "prettier --semi false --write '{src,test}/**/*.js'"
+    "release": "npm run clean && npm i && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
+  },
+  "prettier": {
+    "semi": false
   },
   "babel": {
     "presets": "env"
