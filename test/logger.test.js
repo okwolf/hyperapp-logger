@@ -1,5 +1,5 @@
 import { h, app } from "hyperapp"
-import logger from "../src"
+import { withLogger } from "../src"
 
 const defaultConsole = console
 
@@ -8,7 +8,7 @@ afterEach(() => {
 })
 
 test("without actions", done =>
-  logger()(app)(undefined, undefined, () => done()))
+  withLogger(app)(undefined, undefined, () => done()))
 
 test("log", done => {
   console = {
@@ -19,7 +19,24 @@ test("log", done => {
     }
   }
 
-  logger()(app)(
+  withLogger(app)(
+    {},
+    {
+      foo: () => state => state
+    }
+  ).foo()
+})
+
+test("options without custom log", done => {
+  console = {
+    log() {},
+    group() {},
+    groupEnd() {
+      done()
+    }
+  }
+
+  withLogger({})(app)(
     {},
     {
       foo: () => state => state
@@ -28,7 +45,7 @@ test("log", done => {
 })
 
 test("custom log function", done =>
-  logger({
+  withLogger({
     log(state, action, nextState) {
       expect(state).toEqual({ value: 0 })
       expect(action).toEqual({ name: "inc", data: 2 })
@@ -45,7 +62,7 @@ test("custom log function", done =>
   ).inc(2))
 
 test("state slices", done => {
-  const actions = logger({
+  const actions = withLogger({
     log(state, action, nextState) {
       switch (action.name) {
         case "hello":
@@ -80,7 +97,7 @@ test("state slices", done => {
 })
 
 test("doesn't interfere with state updates", done => {
-  const actions = logger({
+  const actions = withLogger({
     log(state, action, nextState) {}
   })(app)(
     {
@@ -117,7 +134,7 @@ test("doesn't interfere with state updates", done => {
 
 test("doesn't interfere with custom container", done => {
   document.body.innerHTML = "<main></main>"
-  logger({
+  withLogger({
     log(state, action, nextState) {}
   })(app)(
     {},
@@ -151,7 +168,7 @@ test("next state of a slice", done => {
     }
   }
 
-  logger({
+  withLogger({
     log(prevState, action, nextState) {
       expect(prevState).toEqual({
         count1: 1,
@@ -183,7 +200,7 @@ test("no excessive action injections", done => {
     }
   }
 
-  const wiredActions = logger()(app)(state, actions)
+  const wiredActions = withLogger(app)(state, actions)
 
   expect(wiredActions).toMatchObject(
     expect.objectContaining({
