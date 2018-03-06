@@ -67,7 +67,7 @@ test("state slices", done => {
       switch (action.name) {
         case "hello":
           expect(state).toEqual({ slice: { value: 0 } })
-          expect(nextState).toEqual({ message: "hello" })
+          expect(nextState).toEqual({ slice: { value: 0 }, message: "hello" })
           break
         case "slice.up":
           expect(state).toEqual({ value: 0 })

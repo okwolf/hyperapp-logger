@@ -1,7 +1,20 @@
 import defaultLog from "./defaultLog"
 
-var isFn = function(value) {
+function isFn(value) {
   return typeof value === "function"
+}
+
+// Same as clone function in Hyperapp
+// but with names I can understand better
+// https://github.com/hyperapp/hyperapp/blob/62feb73302da9c02d04c16670804b472609c566f/src/index.js#L83-L90
+function assign(from, assignments) {
+  var i,
+    obj = {}
+
+  for (i in from) obj[i] = from[i]
+  for (i in assignments) obj[i] = assignments[i]
+
+  return obj
 }
 
 function makeLoggerApp(log, nextApp) {
@@ -20,7 +33,11 @@ function makeLoggerApp(log, nextApp) {
                     typeof result === "function"
                       ? result(state, actions)
                       : result
-                  log(state, { name: namedspacedName, data: data }, result)
+                  var nextState =
+                    // same check as Hyperapp for determining if state should update
+                    // https://github.com/hyperapp/hyperapp/blob/62feb73302da9c02d04c16670804b472609c566f/src/index.js#L121-L123
+                    result && !result.then ? assign(state, result) : result
+                  log(state, { name: namedspacedName, data: data }, nextState)
                   return result
                 }
               }
