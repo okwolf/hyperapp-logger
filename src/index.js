@@ -36,7 +36,7 @@ function makeLoggerApp(log, nextApp) {
                   var nextState =
                     // same check as Hyperapp for determining if state should update
                     // https://github.com/hyperapp/hyperapp/blob/62feb73302da9c02d04c16670804b472609c566f/src/index.js#L121-L123
-                    result && !result.then ? assign(state, result) : result
+                    result && !result.then ? assign(state, result) : state
                   log(state, { name: namedspacedName, data: data }, nextState)
                   return result
                 }
