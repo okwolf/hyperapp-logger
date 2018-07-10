@@ -5,6 +5,7 @@
   "main": "dist/hyperappLogger.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
+  "typings": "src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hyperapp/logger.git"
@@ -17,7 +18,7 @@
     "clean": "npx rimraf coverage dist node_modules",
     "format": "prettier --write '{src,test}/**/*.js'",
     "format:check": "prettier --list-different {src,test}/**/*.js",
-    "test": "jest --coverage --no-cache",
+    "test": "jest --coverage --no-cache && tsc -p test/ts",
     "bundle": "rollup -i src/index.js -o dist/hyperappLogger.js -m -f umd -n hyperappLogger",
     "minify": "uglifyjs dist/hyperappLogger.js -o dist/hyperappLogger.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=hyperappLogger.js.map",
     "check": "npm run format:check && npm t",
@@ -33,14 +34,15 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
-    "hyperapp": "^1.1.2",
+    "hyperapp": "^1.2.6",
     "jest": "^21.2.1",
     "prettier": "^1.11.1",
     "rollup": "^0.56.3",
+    "typescript": "^2.9.2",
     "uglify-js": "^3.3.12"
   },
   "peerDependencies": {
-    "hyperapp": "^1.1.2"
+    "hyperapp": "^1.2.6"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
