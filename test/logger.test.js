@@ -1,155 +1,81 @@
-import { h, app } from "hyperapp"
-import { withLogger } from "../src"
+/**
+ * @jest-environment jsdom
+ */
+import { h, app } from "hyperapp";
+import logger from "../src";
 
-const defaultConsole = console
+const defaultConsole = console;
 
 afterEach(() => {
-  console = defaultConsole
-})
+  console = defaultConsole;
+});
 
-test("without actions", done =>
-  withLogger(app)(undefined, undefined, () => done()))
+const makeGetState = dispatch => () =>
+  new Promise(resolve =>
+    dispatch(state => {
+      resolve(state);
+      return state;
+    })
+  );
+
+const NoOp = state => state;
+const Inc = (state, by) => ({ ...state, value: state.value + by });
 
 test("log", done => {
   console = {
     log() {},
     group() {},
     groupEnd() {
-      done()
+      done();
     }
-  }
+  };
 
-  withLogger(app)(
-    {},
-    {
-      foo: () => state => state
-    }
-  ).foo()
-})
+  const dispatch = app({ dispatch: logger });
+  dispatch(NoOp);
+});
 
 test("options without custom log", done => {
   console = {
     log() {},
     group() {},
     groupEnd() {
-      done()
+      done();
     }
-  }
+  };
 
-  withLogger({})(app)(
-    {},
-    {
-      foo: () => state => state
-    }
-  ).foo()
-})
+  const dispatch = app({
+    dispatch: logger({})
+  });
+  dispatch(NoOp);
+});
 
-test("custom log function", done =>
-  withLogger({
-    log(state, action, nextState) {
-      expect(state).toEqual({ value: 0 })
-      expect(action).toEqual({ name: "inc", data: 2 })
-      expect(nextState).toEqual({ value: 2 })
-      done()
-    }
-  })(app)(
-    {
-      value: 0
-    },
-    {
-      inc: by => state => ({ value: state.value + by })
-    }
-  ).inc(2))
-
-test("state slices", done => {
-  const actions = withLogger({
-    log(state, action, nextState) {
-      switch (action.name) {
-        case "hello":
-          expect(state).toEqual({ slice: { value: 0 } })
-          expect(nextState).toEqual({ message: "hello" })
-          break
-        case "slice.up":
-          expect(state).toEqual({ value: 0 })
-          expect(action.data).toBe(1)
-          expect(nextState).toEqual({ value: 1 })
-          done()
-          break
-        default:
-          throw new Error(`Unexpected action: ${action.name}`)
+test("custom log function", done => {
+  const dispatch = app({
+    init: { value: 0 },
+    dispatch: logger({
+      log(state, action, props, nextState) {
+        expect(state).toEqual({ value: 0 });
+        expect(action.name).toEqual("Inc");
+        expect(props).toEqual(2);
+        expect(nextState).toEqual({ value: 2 });
+        done();
       }
-    }
-  })(app)(
-    {
-      slice: {
-        value: 0
-      }
-    },
-    {
-      hello: () => () => ({ message: "hello" }),
-      slice: {
-        up: by => state => ({ value: state.value + by })
-      }
-    }
-  )
-  actions.hello()
-  actions.slice.up(1)
-})
+    })
+  });
+  dispatch(Inc, 2);
+});
 
-test("doesn't interfere with state updates", done => {
-  const actions = withLogger({
-    log(state, action, nextState) {}
-  })(app)(
-    {
-      value: 0
-    },
-    {
-      get: () => state => state,
-      up: by => state => ({
-        value: state.value + by
-      }),
-      finish: () => (state, actions) => {
-        actions.exit()
-      },
-      exit: () => {
-        done()
-      }
-    }
-  )
+test("doesn't interfere with state updates", async () => {
+  const dispatch = app({ init: { value: 0 }, dispatch: logger });
+  const getState = makeGetState(dispatch);
 
-  expect(actions.get()).toEqual({
+  expect(await getState()).toEqual({
     value: 0
-  })
+  });
 
-  expect(actions.up(2)).toEqual({
+  dispatch(Inc, 2);
+
+  expect(await getState()).toEqual({
     value: 2
-  })
-
-  expect(actions.get()).toEqual({
-    value: 2
-  })
-
-  actions.finish()
-})
-
-test("doesn't interfere with custom container", done => {
-  document.body.innerHTML = "<main></main>"
-  withLogger({
-    log(state, action, nextState) {}
-  })(app)(
-    {},
-    {},
-    state =>
-      h(
-        "div",
-        {
-          oncreate() {
-            expect(document.body.innerHTML).toBe("<main><div>foo</div></main>")
-            done()
-          }
-        },
-        "foo"
-      ),
-    document.body.firstChild
-  )
-})
+  });
+});
