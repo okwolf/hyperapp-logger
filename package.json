@@ -1,6 +1,6 @@
 {
   "name": "hyperapp-logger",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Log Hyperapp state updates and action information to the console",
   "main": "dist/hyperappLogger.js",
   "type": "module",
