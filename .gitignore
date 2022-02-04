@@ -1,5 +1,3 @@
-.vscode/
-yarn.lock
 coverage/
 node_modules/
 dist/
